@@ -380,6 +380,33 @@ latencies proportional to the size of the relations being scanned. Another
 policy might incorporate some slack to account for the cost of switching
 scans.
 
+\section{Binary Integer Program}
+
+\[
+\sum_{n \in [0,|Q|]} \sum_{q,t \in Q} s_{qn} (t - t_S(q,n)) + i_{qn} (t -
+t_I(q,n)) + is_{qn} (t - t_{IS}(q,n))
+\]
+
+\[
+z_n = 1 \iff s_{qn} \vee i_{qn} \vee is_{qn}
+\]
+
+\[
+s_{qn} + i_{qn} + is_{qn} \le 1, \forall q \in Q
+\]
+
+\[
+\sum_{n \in [0, |Q|]} i_{qn} + is_{qn} + s_{qn} = 1, \forall q \in Q
+\]
+
+\[
+z_n \ge i_{qn} + is_{qn} + s_{qn}, \forall n \in [0, |Q|]
+\]
+
+\[
+\sum_{n \in [0, |Q|]} z_n = 1
+\]
+
 \section{Broker and Admission Control}
 
 The purpose of the broker is to use the bandwidth requirements computed during
