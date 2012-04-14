@@ -1,0 +1,25 @@
+TODO and Notes
+==============
+
+1. Java + Makefile is dumb. This should project should be Mavenized if it
+grows much more.
+
+2. Some of the binary variables don't make sense (like i_20, s_2n), so is it
+best to keep them in the model ause +/- inf co-efficients, or just leave them
+out?
+
+  - FIXME: currently the model implementation uses a large negative
+	co-efficient for weird combinations. Maybe we can actually just leave
+	these variables out of the model? Need to think about this.
+
+Building and running
+====================
+
+$ export CPLEX_HOME=/path/to/CPLEX_Studio_Academic124/
+$ make
+
+Use `./run.sh <class> <args>` to execute a program. You may need to edit
+`run.sh` to point to the correct directory with the CPLEX library. Within
+`run.sh` change the CPLEX_LIB variable as required.
+
+$ ./run.sh Benchmark <perfmodel.dat>
