@@ -4,4 +4,4 @@ all:
 	javac -cp $(CPLEX_JAR):. *.java
 
 clean:
-	rm -f *.class
+	rm -f *.class *.pyc
