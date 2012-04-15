@@ -11,6 +11,7 @@ public class GoodnessProblem {
 
   private Query[] workload;
   private PerfModel pm;
+  private long solvems = -1;
 
   public GoodnessProblem(Query[] workload, PerfModel pm) {
     this.workload = workload;
@@ -100,10 +101,17 @@ public class GoodnessProblem {
       IloCplex cplex = new IloCplex();
       setupModel(cplex);
       cplex.exportModel("em.lp");
+      long cur = System.currentTimeMillis();
+      cplex.solve();
+      solvems = System.currentTimeMillis() - cur;
     } catch (IloException e) {
       e.printStackTrace();
       System.err.println("Caught CPLEX exception: " + e);
     }
+  }
+
+  public long getSolveMillis() {
+    return solvems;
   }
 
 }
