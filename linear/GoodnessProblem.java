@@ -102,9 +102,11 @@ public class GoodnessProblem {
       setupModel(cplex);
       if (out != null)
         cplex.exportModel(out);
+      cplex.setOut(null);
       long cur = System.currentTimeMillis();
       cplex.solve();
       solvems = System.currentTimeMillis() - cur;
+      cplex.end();
     } catch (IloException e) {
       e.printStackTrace();
       System.err.println("Caught CPLEX exception: " + e);
