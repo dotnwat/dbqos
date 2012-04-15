@@ -23,7 +23,7 @@ public class Benchmark {
     }
 
     GoodnessProblem gp = new GoodnessProblem(workload, pm);
-    gp.solve();
+    gp.solve(null);
   }
 
 }

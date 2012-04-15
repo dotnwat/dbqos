@@ -96,11 +96,12 @@ public class GoodnessProblem {
     model.addMaximize(goodness);
   }
 
-  public void solve() {
+  public void solve(String out) {
     try {
       IloCplex cplex = new IloCplex();
       setupModel(cplex);
-      cplex.exportModel("em.lp");
+      if (out != null)
+        cplex.exportModel(out);
       long cur = System.currentTimeMillis();
       cplex.solve();
       solvems = System.currentTimeMillis() - cur;
