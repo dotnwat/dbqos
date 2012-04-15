@@ -11,9 +11,9 @@ import java.io.*;
  */
 public class PerfModel {
 
-  private double[] iops_S;
-  private double[] iops_I;
-  private double[] iops_Is;
+  protected double[] iops_S;
+  protected double[] iops_I;
+  protected double[] iops_Is;
 
   /**
    * Parse line into array of doubles
