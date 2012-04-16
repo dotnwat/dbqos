@@ -12,6 +12,10 @@ out?
 	co-efficient for weird combinations. Maybe we can actually just leave
 	these variables out of the model? Need to think about this.
 
+  - UPDATE: As per Enela's suggestion, it is easier to leave the variables in
+	the model (to avoid special cases during model creation), and add
+	explicit constrains for the variables that should always be zero.
+
 Building and running
 ====================
 

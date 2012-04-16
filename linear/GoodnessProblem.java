@@ -52,6 +52,18 @@ public class GoodnessProblem {
       z_n[j] = model.boolVar("z(" + j + ")");
 
     /*
+     * Setup constraints for variable states that don't make any sense.
+     *
+     *  i_q0 + is_q0 = 0 forall q
+     *  s_qn = 0 forall q, n = |Q|
+     */
+    for (int i = 0; i < workload.length; i++) {
+      model.addEq(0.0, s_qn[i][workload.length], "NotReal");
+      model.addEq(0.0, i_qn[i][0], "NotReal");
+      model.addEq(0.0, is_qn[i][0], "NotReal");
+    }
+
+    /*
      * Setup constraint: one partition selection per query
      *   sum_{n} i_qn + is_qn + s_qn = 1 forall q
      */
