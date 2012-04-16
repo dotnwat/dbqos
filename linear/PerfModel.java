@@ -89,4 +89,11 @@ public class PerfModel {
     return ((double)q.getBlocks()) / iops_Is[n];
   }
 
+  /**
+   * Maximum |QI|=n size.
+   */
+  public int getMaxSize() {
+    return iops_I.length;
+  }
+
 }
