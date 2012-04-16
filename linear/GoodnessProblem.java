@@ -13,6 +13,11 @@ public class GoodnessProblem {
   private PerfModel pm;
   private long solvems = -1;
 
+  private IloIntVar[][] s_qn;
+  private IloIntVar[][] i_qn;
+  private IloIntVar[][] is_qn;
+  private IloCplex cplex;
+
   public GoodnessProblem(Query[] workload, PerfModel pm) {
     this.workload = workload;
     this.pm = pm;
@@ -42,9 +47,9 @@ public class GoodnessProblem {
 
   private void setupModel(IloModeler model) throws IloException {
     /* Setup vars for query partition choices */
-    IloIntVar[][] s_qn = buildPartitionVariables("s", model);
-    IloIntVar[][] i_qn = buildPartitionVariables("i", model);
-    IloIntVar[][] is_qn = buildPartitionVariables("is", model);
+    s_qn = buildPartitionVariables("s", model);
+    i_qn = buildPartitionVariables("i", model);
+    is_qn = buildPartitionVariables("is", model);
 
     /* Setup z_n vars for restricting 'choice' of |QI| size */
     IloIntVar[] z_n = new IloIntVar[workload.length + 1];
@@ -108,9 +113,65 @@ public class GoodnessProblem {
     model.addMaximize(goodness);
   }
 
+  /**
+   * Return the boolean representation of the int var.
+   */
+  public boolean getBoolVal(IloIntVar var) {
+    try {
+      double val = cplex.getValue(var);
+      if (Math.round(val) == 1)
+        return true;
+      if (Math.round(val) == 0)
+        return false;
+    } catch (IloCplex.UnknownObjectException e) {
+      e.printStackTrace();
+      System.err.println("Unknown object:" + e);
+      System.exit(-1);
+    } catch (IloException e) {
+      e.printStackTrace();
+      System.err.println("Caught IloException: " + e);
+      System.exit(-1);
+    }
+    throw new RuntimeException("Invalid binary value!");
+  }
+
+  /**
+   *
+   */
+  public String matrixToString(String name, IloIntVar[][] mat) {
+    String out = name + ":\n";
+    for (int i = 0; i < workload.length; i++) {
+      String row = " ";
+      for (int j = 0; j <= workload.length; j++) {
+        row += getBoolVal(mat[i][j]) ? 1 : 0;
+        row += " ";
+      }
+      out += row + "\n";
+    }
+    return out;
+  }
+
+  /**
+   *
+   */
+  public void printSolutionMatrix() {
+    try {
+      System.out.println("==================================");
+      System.out.println(" - Solution: |Q| = " + workload.length);
+      System.out.println(" - ObjValue: " + cplex.getObjValue());
+      System.out.print(matrixToString("s_qn", s_qn));
+      System.out.print(matrixToString("i_qn", i_qn));
+      System.out.print(matrixToString("is_qn", is_qn));
+    } catch (IloException e) {
+      e.printStackTrace();
+      System.err.println("Caught IloException: " + e);
+      System.exit(-1);
+    }
+  }
+
   public void solve(String out) {
     try {
-      IloCplex cplex = new IloCplex();
+      cplex = new IloCplex();
       setupModel(cplex);
       if (out != null)
         cplex.exportModel(out);
@@ -118,11 +179,15 @@ public class GoodnessProblem {
       long cur = System.currentTimeMillis();
       cplex.solve();
       solvems = System.currentTimeMillis() - cur;
-      cplex.end();
     } catch (IloException e) {
       e.printStackTrace();
       System.err.println("Caught CPLEX exception: " + e);
+      System.exit(-1);
     }
+  }
+
+  public void cleanup() {
+    cplex.end();
   }
 
   public long getSolveMillis() {

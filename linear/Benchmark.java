@@ -28,6 +28,7 @@ public class Benchmark {
         GoodnessProblem gp = new GoodnessProblem(workload, pm);
         gp.solve(null);
         elapsed += gp.getSolveMillis();
+        gp.cleanup();
       }
       String out = i + " " + (elapsed / (float)repeat);
       System.out.println(out);
