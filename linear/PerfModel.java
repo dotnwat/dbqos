@@ -59,7 +59,7 @@ public class PerfModel {
    */
   public double t_S(Query q, int n) {
     if (iops_S[n] == 0)
-      return -1000000.0;
+      return 1000000;
     return ((double)q.getBlocks()) / iops_S[n];
   }
 
@@ -72,7 +72,7 @@ public class PerfModel {
    */
   public double t_I(Query q, int n) {
     if (iops_I[n] == 0)
-      return -1000000.0;
+      return 1000000;
     return ((double)q.getBlocks()) / iops_I[n];
   }
 
@@ -85,7 +85,7 @@ public class PerfModel {
    */
   public double t_Is(Query q, int n) {
     if (iops_Is[n] == 0)
-      return -1000000.0;
+      return 1000000;
     return ((double)q.getBlocks()) / iops_Is[n];
   }
 
