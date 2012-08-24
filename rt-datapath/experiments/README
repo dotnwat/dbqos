@@ -1,0 +1,4 @@
+bw_1seq_0-10rnd_linux/
+  - logs: num-seq num-rnd [blk-count millisecond]*num-seq, [same]*num-rnd
+  - measured average bandwidth for 1 seq stream
+    running concurrently with 0 to 10 rnd streams.
