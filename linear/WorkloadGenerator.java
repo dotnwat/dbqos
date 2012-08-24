@@ -3,7 +3,7 @@
  */
 public class WorkloadGenerator {
 
-  private static int randRange(int low, int high) {
+  public static int randRange(int low, int high) {
     return low + (int)(Math.random() * ((high - low) + 1));
   }
 

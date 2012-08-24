@@ -1,6 +1,8 @@
 /**
  *
  */
+import java.util.List;
+
 import ilog.concert.*;
 import ilog.cplex.*;
 
@@ -166,6 +168,19 @@ public class GoodnessProblem {
       e.printStackTrace();
       System.err.println("Caught IloException: " + e);
       System.exit(-1);
+    }
+  }
+
+  /**
+   * Add query to list if bit is set in matrix.
+   */
+  private void updateSolution(IloIntVar[][] mat, List<Query> list) {
+    for (int i = 0; i < workload.length; i++) {
+      for (int j = 0; j <= workload.length; j++) {
+        if (getBoolVal(s_qn[i][j])) {
+          list.add(workload[i]);
+        }
+      }
     }
   }
 
